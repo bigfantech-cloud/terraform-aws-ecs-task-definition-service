@@ -52,7 +52,7 @@ Example:
 
 ```
 module "ecs-td-service" {
-  source        = "app.terraform.io/bigfantech/ecs-task-definition-service/aws"
+  source        = "bigfantech-cloud/ecs-task-definition-service/aws"
   version       = "1.0.0"
   project_name  = "abc"
   environment   = "dev"
