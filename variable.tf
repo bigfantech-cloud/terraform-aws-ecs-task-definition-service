@@ -1,0 +1,117 @@
+variable "vpc_id" {
+  description = "VPC ID"
+  type        = string
+}
+
+variable "ecs_lb_security_group_id" {
+  description = "ECS ALB security group ID to allow inbound access from the LB only to Task"
+  type        = string
+}
+
+#----
+#TASK DEFENITION
+#----
+variable "task_cpu" {
+  description = "Task CPU size. Ex: 256 or 512 or 1024 or ..."
+  type        = number
+}
+
+variable "task_memory" {
+  description = "Task memory. Ex: 512 or 1024 or ..."
+  type        = number
+}
+
+variable "td_skip_destroy" {
+  description = "Whether to retain the old revision when the Task Definition is updated or replacement is necessary. Default = true."
+  default     = true
+}
+
+variable "container_definitions" {
+  description = "json Container Definition"
+}
+
+variable "additional_ecs_task_iam_permisssions" {
+  description = "List of additional IAM permissions to attach to ECS Task IAM role"
+  type        = list(string)
+  default     = []
+}
+
+variable "additional_ecs_task_execution_iam_permisssions" {
+  description = "List of additional IAM permissions to attach to ECS Task Execution IAM role"
+  type        = list(string)
+  default     = []
+}
+
+#-----
+#SERVICE
+#-----
+
+variable "ecs_service_name" {
+  description = "Name the ECS Service"
+  type        = string
+}
+
+variable "cluster_id" {
+  description = "ECS cluster ID"
+  type        = string
+}
+
+variable "ecs_task_desired_count" {
+  description = "Number of ECS Task to run. Default = 1"
+  default     = 1
+}
+
+variable "lb_target_group_arn" {
+  description = "ARN of ALB Target Group"
+  type        = string
+}
+
+variable "subnets" {
+  description = "Subnets to associate with Task & Service"
+  type        = list(string)
+}
+
+variable "container_port" {
+  description = <<-EOF
+  "Container Port to associate with LB, and port mapping in Container Definition.
+  Port mappings allow containers to access ports on the host container instance to send or receive traffic."
+  EOF
+  type        = number
+}
+
+variable "container_name" {
+  description = "Name of the container to associate with the load balancer (as it appears in a container definition)."
+  type        = string
+}
+
+variable "capacity_provider_strategies" {
+  type = list(object({
+    capacity_provider = string
+    weight            = number
+    base              = number
+  }))
+
+  description = <<EOF
+  "List of ECS Service Capacity Provider Strategies.
+    Ex: [{
+        capacity_provider = "FARGATE_SPOT"
+        weight            = 100
+        base              = 1
+        },]"
+    EOF
+
+  default = [{
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 100
+    base              = 1
+  }]
+}
+
+variable "ecs_exec_enabled" {
+  description = <<-EOF
+    Specifies whether to enable Amazon ECS Exec for the tasks within the service.
+    Adds required SSM permission to Task IAM Role. Default = true.
+   EOF
+  type        = bool
+  default     = true
+}
