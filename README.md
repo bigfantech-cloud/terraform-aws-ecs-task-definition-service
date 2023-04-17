@@ -27,6 +27,7 @@ To create ECS Task Definition, ECS Service.
 ```
 - capacity_provider_strategies                    List of ECS Service Capacity Provider Strategies.
 - ecs_task_desired_count                          Number of ECS Task to run. Default = 1.
+- ignore_task_definition_change                   Whether to ignore updating ECS Service when new Task Definition is created through Terraform. Default = true.
 - ecs_exec_enabled                                Specifies whether to enable Amazon ECS Exec for the tasks within the service.
                                                   Adds required SSM permission to Task IAM Role. Default = true.
 - td_skip_destroy                                 Whether to retain the old revision when the Task Definition is updated or
@@ -69,23 +70,24 @@ module "ecs-td-service" {
   ]
 
   #service
-  ecs_service_name             = "nodeJs"
-  cluster_id                   = module.ecs-cluster.cluster_id
-  lb_target_group_arn          = module.alb.alb_target_group_arn
-  subnets                      = module.network.public_subnet_ids
-  container_port               = 80
-  container_name               = "server"
-  capacity_provider_strategies = [
+  ecs_service_name              = "nodeJs"
+  cluster_id                    = module.ecs-cluster.cluster_id
+  ignore_task_definition_change = false
+  lb_target_group_arn           = module.alb.alb_target_group_arn
+  subnets                       = module.network.public_subnet_ids
+  container_port                = 80
+  container_name                = "server"
+  capacity_provider_strategies  = [
     {
     capacity_provider = FARGATE_SPOT
     weight            = 50
     base              = 1
-  },
-  {
-   capacity_provider = FARGATE
-    weight            = 50
-    base              = 0
-  }
+    },
+    {
+     capacity_provider = FARGATE
+      weight            = 50
+      base              = 0
+    }
   ]
 
   vpc_id                   = module.network.vpc_id
