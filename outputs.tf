@@ -19,7 +19,7 @@ output "task_security_group_id" {
 
 output "ecs_serivce_name" {
   description = "ECS service name"
-  value       = aws_ecs_service.service.name
+  value       = local.ecs_service_name
 }
 
 #-----
