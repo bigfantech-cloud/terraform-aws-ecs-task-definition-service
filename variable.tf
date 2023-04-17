@@ -64,7 +64,7 @@ variable "ecs_task_desired_count" {
 variable "ignore_task_definition_change" {
   description = "Whether to ignore updating ECS Service when new Task Definition is created through Terraform"
   type        = bool
-  default     = ture
+  default     = true
 }
 
 variable "lb_target_group_arn" {
