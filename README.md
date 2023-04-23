@@ -1,154 +1,65 @@
-# Purpose:
+# BigFantech-Cloud
 
-To create ECS Task Definition, ECS Service.
+We automate your infrastructure.
+You will have full control of your infrastructure, including Infrastructure as Code (IaC).
 
-## Variable Inputs:
+To hire, email: `bigfantech@yahoo.com`
 
-#### REQUIRED:
+# Purpose of this code
 
-```
-- project_name              (ex: project name)
-- environment               (ex: dev/prod)
-- task_cpu                  CPU size (ex: 512)
-- task_memory               Memory size (ex: 1024)
-- container_definitions     module.container.cd_json
-- ecs_service_name          Name the ECS Service
-- cluster_id                module.ecs-cluster.cluster_id
-- lb_target_group_arn       module.alb.alb_target_group_arn
-- subnets                   module.network.public_subnet_ids
-- container_port            Container port to associate with ALB Target Group. (ex: 80)
-- container_name            Name of the container to associate with the load balancer.
-- vpc_id                    module.network.vpc_id
-- ecs_lb_security_group_id  module.alb.ecs_lb_security_group_id
-```
+> Terraform module
 
-#### OPTIONAL:
+- Create ECS Task Definition
+- Create ECS Service
 
-```
-- capacity_provider_strategies                    List of ECS Service Capacity Provider Strategies.
-- ecs_task_desired_count                          Number of ECS Task to run. Default = 1.
-- ignore_task_definition_change                   Whether to ignore updating ECS Service when new Task Definition is created through Terraform. Default = true.
-- ecs_exec_enabled                                Specifies whether to enable Amazon ECS Exec for the tasks within the service.
-                                                  Adds required SSM permission to Task IAM Role. Default = true.
-- td_skip_destroy                                 Whether to retain the old revision when the Task Definition is updated or
-                                                  replacement is necessary. Default = true.
-- additional_ecs_task_iam_permisssions            List of additional IAM permissions to attach to ECS Task IAM role
-- additional_ecs_task_execution_iam_permisssions  List of additional IAM permissions to attach to ECS Task Execution IAM role
-```
+## Required Providers
 
-## Major resources created:
+| Name                | Description |
+| ------------------- | ----------- |
+| aws (hashicorp/aws) | >= 4.47     |
 
-- aws_ecs_service
-- aws_ecs_task_definition
-- aws_security_group (allowing ingress fron ALB)
-- aws_iam_policy: task_execution_policy, task_policy.
-- aws_iam_role: task_execution_role, task_role.
+## Variables
 
-# Steps to create the resources
+### Required Variables
 
-1. Call the module from your tf code.
-2. Specify variable inputs.
+| Name                     | Description                                                 |
+| ------------------------ | ----------------------------------------------------------- |
+| project_name             | (ex: project name)                                          |
+| environment              | (ex: dev/prod)                                              |
+| task_cpu                 | CPU size (ex: 512)                                          |
+| task_memory              | Memory size (ex: 1024)                                      |
+| container_definitions    | module.container.cd_json                                    |
+| ecs_service_name         | Name the ECS Service                                        |
+| cluster_id               | ECS Cluster ID                                              |
+| lb_target_group_arn      | ALB target group to add ECS Service target                  |
+| subnets                  | List of subnets to create Service/Tasks in                  |
+| container_port           | Container port to associate with ALB Target Group. (ex: 80) |
+| container_name           | Name of the container to associate with the load balancer   |
+| vpc_id                   | VPC IS                                                      |
+| ecs_lb_security_group_id | ALB secuirty group ID                                       |
 
-Example:
+### OPTIONAL:
 
-```
-module "ecs-td-service" {
-  source        = "bigfantech-cloud/ecs-task-definition-service/aws"
-  version       = "1.0.0"
-  project_name  = "abc"
-  environment   = "dev"
+| Name                                             | Description                                                                                                        |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `capacity_provider_strategies`                   | List of ECS Service Capacity Provider Strategies                                                                   |
+| `ignore_task_definition_change`                  | Whether to ignore updating ECS Service when new Task Definition is created through Terraform. Default = false      |
+| `ecs_task_desired_count`                         | Number of ECS Task to run. Default = 1                                                                             |
+| `ecs_exec_enabled`                               | Specifies whether to enable Amazon ECS Exec for the tasks within the service. Default = true                       |
+| `td_skip_destroy`                                | Whether to retain the old revision when the Task Definition is updated or replacement is necessary. Default = true |
+| `additional_ecs_task_iam_permisssions`           | List of additional IAM permissions to attach to ECS Task IAM role                                                  |
+| `additional_ecs_task_execution_iam_permisssions` | List of additional IAM permissions to attach to ECS Task Execution IAM role                                        |
 
-  #td
-  task_cpu              = 512
-  task_memory           = 1024
-  container_definitions = [module.container.cd_json_object, module.container2.cd_json_object]
-  additional_ecs_task_iam_permisssions = [
-    "s3:GetObject",
-    "s3:ListBucket",
-    "s3:PutObject",
-    "s3:DeleteObject",
-  ]
+### Example config
 
-  #service
-  ecs_service_name              = "nodeJs"
-  cluster_id                    = module.ecs-cluster.cluster_id
-  ignore_task_definition_change = false
-  lb_target_group_arn           = module.alb.alb_target_group_arn
-  subnets                       = module.network.public_subnet_ids
-  container_port                = 80
-  container_name                = "server"
-  capacity_provider_strategies  = [
-    {
-    capacity_provider = FARGATE_SPOT
-    weight            = 50
-    base              = 1
-    },
-    {
-     capacity_provider = FARGATE
-      weight            = 50
-      base              = 0
-    }
-  ]
+> Check the `example` folder in this repo
 
-  vpc_id                   = module.network.vpc_id
-  ecs_lb_security_group_id = module.alb.ecs_lb_security_group_id
+### Outputs
 
-  depends_on = [
-    module.ecs-cluster,
-  ]
-}
-```
-
-3. Apply: From terminal run following commands.
-
-```
-terraform init
-```
-
-```
-terraform plan
-```
-
-```
-terraform apply
-```
-
----
-
-##OUTPUTS
-
-```
-
-#-----
-#TASK DEFINITION
-#-----
-
-task_definition_arn
-  description = "ECS Task Definition ARN"
-
-task_security_group_id
-  description = "ID of security group attached to ECS Task. Allows ingress from the LB only, egress all port"
-
-#-----
-#SERVICE
-#-----
-
-ecs_serivce_name
-  description = "ECS service name"
-
-#-----
-#TASK IAM
-#-----
-
-task_iam_role_name
-  description = "Name of the IAM role for ECS Task."
-
-#-----
-#TASK EXECUTION IAM
-#-----
-
-task_execution_iam_role_name
-  description = "Name of the IAM role for ECS Task Execution."
-
-
-```
+| Name                         | Description                                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------------------------- |
+| task_definition_arn          | ECS Task Definition ARN                                                                     |
+| task_security_group_id       | ID of security group attached to ECS Task. Allows ingress from the LB only, egress all port |
+| ecs_serivce_name             | ECS service name                                                                            |
+| task_iam_role_name           | Name of the IAM role for ECS Task                                                           |
+| task_execution_iam_role_name | Name of the IAM role for ECS Task Execution                                                 |

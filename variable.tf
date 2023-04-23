@@ -11,6 +11,13 @@ variable "ecs_lb_security_group_id" {
 #----
 #TASK DEFENITION
 #----
+
+variable "ignore_task_definition_change" {
+  description = "Whether to ignore updating ECS Service when new Task Definition is created through Terraform"
+  type        = bool
+  default     = false
+}
+
 variable "task_cpu" {
   description = "Task CPU size. Ex: 256 or 512 or 1024 or ..."
   type        = number
