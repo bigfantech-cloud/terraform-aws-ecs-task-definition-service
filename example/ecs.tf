@@ -5,6 +5,14 @@ module "network" {
   cidr_block   = "10.0.0.0/16"
 }
 
+module "ecs_alb" {
+  source = "bigfantech-cloud/alb-ecs/aws"
+
+  #...
+  #...... module attributes
+  #.........
+}
+
 resource "aws_ecs_cluster" "default" {
   name = "thecluster"
 }
@@ -29,9 +37,9 @@ module "ecs_td_service" {
   project_name             = "abc"
   environment              = "dev"
   vpc_id                   = module.network.vpc_id
-  ecs_lb_security_group_id = "sg-123445abc"
-  subnets                  = ["module.network.public_subnet_ids"]
-  lb_target_group_arn      = "arn::/"
+  ecs_lb_security_group_id = module.ecs_alb.ecs_lb_security_group_id
+  subnets                  = "module.network.public_subnet_ids"
+  lb_target_group_arn      = module.ecs_alb.alb_target_group_arn_map["server"]
 
   #td
   task_cpu              = 512
