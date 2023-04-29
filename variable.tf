@@ -13,18 +13,13 @@ variable "ecs_lb_security_group_id" {
 #----
 
 variable "task_cpu" {
-  description = "Task CPU size. Ex: 256 or 512 or 1024 or ..."
+  description = "Task CPU size. example: 256 or 512 or 1024 or ..."
   type        = number
 }
 
 variable "task_memory" {
-  description = "Task memory. Ex: 512 or 1024 or ..."
+  description = "Task memory. example: 512 or 1024 or ..."
   type        = number
-}
-
-variable "td_skip_destroy" {
-  description = "Whether to retain the old revision when the Task Definition is updated or replacement is necessary. Default = true."
-  default     = true
 }
 
 variable "container_definitions" {
@@ -100,7 +95,7 @@ variable "capacity_provider_strategies" {
 
   description = <<EOF
   "List of ECS Service Capacity Provider Strategies.
-    Ex: [{
+    example: [{
         capacity_provider = "FARGATE_SPOT"
         weight            = 100
         base              = 1

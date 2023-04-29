@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "td" {
   task_role_arn      = aws_iam_role.task_role.arn
   execution_role_arn = aws_iam_role.task_execution_role.arn
 
-  skip_destroy          = var.td_skip_destroy
+  skip_destroy          = true
   container_definitions = jsonencode(var.container_definitions)
 
   runtime_platform {

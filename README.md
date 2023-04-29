@@ -22,21 +22,21 @@ To hire, email: `bigfantech@yahoo.com`
 
 ### Required Variables
 
-| Name                       | Description                                                 |
-| -------------------------- | ----------------------------------------------------------- |
-| `project_name`             | (ex: project name)                                          |
-| `environment`              | (ex: dev/prod)                                              |
-| `task_cpu`                 | CPU size (ex: 512)                                          |
-| `task_memory`              | Memory size (ex: 1024)                                      |
-| `container_definitions`    | module.container.cd_json                                    |
-| `ecs_service_name`         | Name the ECS Service                                        |
-| `cluster_id`               | ECS Cluster ID                                              |
-| `lb_target_group_arn`      | ALB target group to add ECS Service target                  |
-| `subnets`                  | List of subnets to create Service/Tasks in                  |
-| `container_port`           | Container port to associate with ALB Target Group. (ex: 80) |
-| `container_name`           | Name of the container to associate with the load balancer   |
-| `vpc_id`                   | VPC IS                                                      |
-| `ecs_lb_security_group_id` | ALB secuirty group ID                                       |
+| Name                       | Description                                                      |
+| -------------------------- | ---------------------------------------------------------------- |
+| `project_name`             | (example: project name)                                          |
+| `environment`              | (example: dev/prod)                                              |
+| `task_cpu`                 | CPU size (example: 512)                                          |
+| `task_memory`              | Memory size (example: 1024)                                      |
+| `container_definitions`    | module.container.cd_json                                         |
+| `ecs_service_name`         | Name the ECS Service                                             |
+| `cluster_id`               | ECS Cluster ID                                                   |
+| `lb_target_group_arn`      | ALB target group to add ECS Service target                       |
+| `subnets`                  | List of subnets to create Service/Tasks in                       |
+| `container_port`           | Container port to associate with ALB Target Group. (example: 80) |
+| `container_name`           | Name of the container to associate with the load balancer        |
+| `vpc_id`                   | VPC IS                                                           |
+| `ecs_lb_security_group_id` | ALB secuirty group ID                                            |
 
 ### OPTIONAL:
 
