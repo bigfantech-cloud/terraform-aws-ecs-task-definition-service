@@ -67,7 +67,7 @@ resource "aws_iam_role" "task_role" {
 
 resource "aws_iam_policy" "task_policy" {
   name   = "${module.this.id}-ecs-task-policy"
-  policy = var.custom_codepipeline_policy_document != null ? var.custom_task_policy_document : data.aws_iam_policy_document.task_policy.json
+  policy = var.custom_task_policy_document != null ? var.custom_task_policy_document : data.aws_iam_policy_document.task_policy.json
 
   tags = merge(
     module.this.tags,
