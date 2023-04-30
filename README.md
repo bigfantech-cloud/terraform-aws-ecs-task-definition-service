@@ -22,10 +22,12 @@ To hire, email: `bigfantech@yahoo.com`
 
 ### Required Variables
 
-| Name                       | Description                                                      |
-| -------------------------- | ---------------------------------------------------------------- |
-| `project_name`             | (example: project name)                                          |
-| `environment`              | (example: dev/prod)                                              |
+### Required Variables
+
+| Name                       | Description                                                      | Default |
+| -------------------------- | ---------------------------------------------------------------- | ------- |
+| `project_name`             |                                                                  |
+| `environment`              |                                                                  |
 | `task_cpu`                 | CPU size (example: 512)                                          |
 | `task_memory`              | Memory size (example: 1024)                                      |
 | `container_definitions`    | module.container.cd_json                                         |
@@ -40,15 +42,17 @@ To hire, email: `bigfantech@yahoo.com`
 
 ### OPTIONAL:
 
-| Name                                             | Description                                                                                                        |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `capacity_provider_strategies`                   | List of ECS Service Capacity Provider Strategies                                                                   |
-| `ignore_task_definition_change`                  | Whether to ignore updating ECS Service when new Task Definition is created through Terraform. Default = false      |
-| `ecs_task_desired_count`                         | Number of ECS Task to run. Default = 1                                                                             |
-| `ecs_exec_enabled`                               | Specifies whether to enable Amazon ECS Exec for the tasks within the service. Default = true                       |
-| `td_skip_destroy`                                | Whether to retain the old revision when the Task Definition is updated or replacement is necessary. Default = true |
-| `additional_ecs_task_iam_permisssions`           | List of additional IAM permissions to attach to ECS Task IAM role                                                  |
-| `additional_ecs_task_execution_iam_permisssions` | List of additional IAM permissions to attach to ECS Task Execution IAM role                                        |
+| Name                                             | Description                                                                                              | Default                                                                    |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `capacity_provider_strategies`                   | List of ECS Service Capacity Provider Strategies                                                         | [{<br>capacity_provider = "FARGATE_SPOT"<br>weight = 100<br>base = 1<br>}] |
+| `ignore_task_definition_change`                  | Whether to ignore updating ECS Service when new Task Definition is created through Terraform             | false                                                                      |
+| `ecs_task_desired_count`                         | Number of ECS Task to run                                                                                | 1                                                                          |
+| `ecs_exec_enabled`                               | Specifies whether to enable Amazon ECS Exec for the tasks within the service                             | true                                                                       |
+| `td_skip_destroy`                                | Whether to retain the old revision when the Task Definition is updated or replacement is necessary       | true                                                                       |
+| `additional_ecs_task_iam_permisssions`           | List of additional IAM permissions to attach to ECS Task IAM role                                        | []                                                                         |
+| `additional_ecs_task_execution_iam_permisssions` | List of additional IAM permissions to attach to ECS Task Execution IAM role                              | []                                                                         |
+| `custom_task_policy_document`                    | Custom policy document for ECS Task. Use `aws_iam_policy_document` data block to generate json           | null                                                                       |
+| `custom_task_execution_policy_document`          | Custom policy document for ECS Task Execution. Use `aws_iam_policy_document` data block to generate json | null                                                                       |
 
 ### Example config
 

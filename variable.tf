@@ -8,6 +8,18 @@ variable "ecs_lb_security_group_id" {
   type        = string
 }
 
+variable "custom_task_policy_document" {
+  description = "Custom policy document for ECS Task. Use `aws_iam_policy_document` data block to generate json"
+  type        = string
+  default     = null
+}
+
+variable "custom_task_execution_policy_document" {
+  description = "Custom policy document for ECS Task Execution. Use `aws_iam_policy_document` data block to generate json"
+  type        = string
+  default     = null
+}
+
 #----
 #TASK DEFENITION
 #----
