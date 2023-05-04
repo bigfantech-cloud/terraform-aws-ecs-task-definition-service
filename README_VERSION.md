@@ -1,3 +1,18 @@
+# v1.2.0
+
+# Feature addition
+
+#### what changed:
+
+`ssm:GetParameter*`, `ssm:DescribeParameters` premission added to ECS Task, and Task execution role.
+
+#### reason for change:
+
+> Permission requirement for Environment Variable from SSM parameter store
+
+#### info:
+
+
 # v1.1.0
 
 # Feature
