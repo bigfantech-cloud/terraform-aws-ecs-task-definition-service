@@ -9,13 +9,19 @@ variable "ecs_lb_security_group_id" {
 }
 
 variable "custom_task_policy_document" {
-  description = "Custom policy document for ECS Task. Use `aws_iam_policy_document` data block to generate json"
+  description = <<-EOT
+    Custom IAM policy document for ECS Task to attach instead of policy document defined in this module
+    Use `aws_iam_policy_document` data block to generate JSON"
+  EOT
   type        = string
   default     = null
 }
 
 variable "custom_task_execution_policy_document" {
-  description = "Custom policy document for ECS Task Execution. Use `aws_iam_policy_document` data block to generate json"
+  description = <<-EOT
+    Custom IAM policy document for ECS Task Execution to attach instead of policy document defined in this module
+    Use `aws_iam_policy_document` data block to generate JSON"
+  EOT
   type        = string
   default     = null
 }
