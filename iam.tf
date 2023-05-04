@@ -30,6 +30,8 @@ data "aws_iam_policy_document" "task_policy" {
       "iam:GetPolicy",
       "iam:GetPolicyVersion",
       "iam:GetRole",
+      "ssm:GetParameter*",
+      "ssm:DescribeParameters"
     ], var.additional_ecs_task_iam_permisssions))
 
     resources = ["*"]
@@ -102,6 +104,8 @@ data "aws_iam_policy_document" "task_execution_policy" {
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents"
+      "ssm:GetParameter*",
+      "ssm:DescribeParameters"
     ], var.additional_ecs_task_execution_iam_permisssions))
 
     resources = ["*"]
