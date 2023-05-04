@@ -1,6 +1,6 @@
 # v1.2.0
 
-# Feature addition
+### Feature addition
 
 #### what changed:
 
@@ -15,7 +15,7 @@
 
 # v1.1.0
 
-# Feature
+### Feature
 
 #### what changed:
 
