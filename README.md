@@ -51,8 +51,8 @@ To hire, email: `bigfantech@yahoo.com`
 | `td_skip_destroy`                                | Whether to retain the old revision when the Task Definition is updated or replacement is necessary       | true                                                                       |
 | `additional_ecs_task_iam_permisssions`           | List of additional IAM permissions to attach to ECS Task IAM role                                        | []                                                                         |
 | `additional_ecs_task_execution_iam_permisssions` | List of additional IAM permissions to attach to ECS Task Execution IAM role                              | []                                                                         |
-| `custom_task_policy_document`                    | Custom IAM policy document for ECS Task role to attach instead of policy document defined in this module<br>Use `aws_iam_policy_document` data block to generate JSON           | null                                                                       |
-| `custom_task_execution_policy_document`          | Custom IAM policy document for ECS Task Execution role to attach instead of policy document defined in this module<br>Use `aws_iam_policy_document` data block to generate JSON    | null                                                                       |
+| `custom_task_policy_document`                    | Custom IAM policy document for ECS Task role to attach instead of policy document defined in this module.<br>Use `aws_iam_policy_document` data block to generate JSON           | null                                                                       |
+| `custom_task_execution_policy_document`          | Custom IAM policy document for ECS Task Execution role to attach instead of policy document defined in this module.<br>Use `aws_iam_policy_document` data block to generate JSON    | null                                                                       |
 
 ### Example config
 
