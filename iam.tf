@@ -103,7 +103,7 @@ data "aws_iam_policy_document" "task_execution_policy" {
       "ecr:BatchGetImage",
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
-      "logs:PutLogEvents"
+      "logs:PutLogEvents",
       "ssm:GetParameter*",
       "ssm:DescribeParameters"
     ], var.additional_ecs_task_execution_iam_permisssions))
