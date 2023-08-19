@@ -13,7 +13,7 @@ resource "aws_security_group" "default" {
 
 resource "aws_security_group_rule" "egress" {
 
-  security_group_id = aws_security_group.task_sg.id
+  security_group_id = aws_security_group.default.id
   type              = "egress"
   from_port         = 0
   to_port           = 0
@@ -23,7 +23,7 @@ resource "aws_security_group_rule" "egress" {
 
 resource "aws_security_group_rule" "ingress" {
 
-  security_group_id        = aws_security_group.task_sg.id
+  security_group_id        = aws_security_group.default.id
   type                     = "ingress"
   from_port                = 0
   to_port                  = 0

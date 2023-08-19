@@ -4,6 +4,10 @@ locals {
 
 data "aws_region" "current" {}
 
+data "aws_ecs_task_definition" "default" {
+  task_definition = aws_ecs_task_definition.default.family
+}
+
 resource "aws_cloudwatch_log_group" "service_connect" {
   count = var.service_connect_configuration.enabled ? 1 : 0
 
@@ -18,7 +22,7 @@ resource "aws_ecs_service" "service" {
 
   name                   = var.ecs_service_name
   cluster                = var.cluster_id
-  task_definition        = aws_ecs_task_definition.td.arn
+  task_definition        = data.aws_ecs_task_definition.default.arn
   desired_count          = var.ecs_task_desired_count
   enable_execute_command = var.ecs_exec_enabled
 
@@ -82,7 +86,7 @@ resource "aws_ecs_service" "service" {
   }
 
   depends_on = [
-    aws_ecs_task_definition.td,
+    aws_ecs_task_definition.default,
   ]
 
   tags = module.this.tags
@@ -94,7 +98,7 @@ resource "aws_ecs_service" "ignore_task_definition_change" {
 
   name                   = var.ecs_service_name
   cluster                = var.cluster_id
-  task_definition        = aws_ecs_task_definition.td.arn
+  task_definition        = data.aws_ecs_task_definition.default.arn
   desired_count          = var.ecs_task_desired_count
   enable_execute_command = var.ecs_exec_enabled
 
@@ -159,7 +163,7 @@ resource "aws_ecs_service" "ignore_task_definition_change" {
   }
 
   depends_on = [
-    aws_ecs_task_definition.td,
+    aws_ecs_task_definition.default,
   ]
 
   tags = module.this.tags

@@ -5,12 +5,12 @@
 
 output "task_definition_arn" {
   description = "ECS Task Definition ARN"
-  value       = aws_ecs_task_definition.td.arn
+  value       = aws_ecs_task_definition.default.arn
 }
 
 output "task_security_group_id" {
-  description = "ID of security group attached to ECS Task. Allows ingress from the LB only, egress all port"
-  value       = aws_security_group.task_sg.id
+  description = "ID of security group attached to ECS Service"
+  value       = aws_security_group.default.id
 }
 
 output "ecs_serivce_name" {

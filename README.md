@@ -61,10 +61,10 @@ To hire, email: `bigfantech@yahoo.com`
 
 ### Outputs
 
-| Name                           | Description                                                                                 |
-| ------------------------------ | ------------------------------------------------------------------------------------------- |
-| `task_definition_arn`          | ECS Task Definition ARN                                                                     |
-| `task_security_group_id`       | ID of security group attached to ECS Task. Allows ingress from the LB only, egress all port |
-| `ecs_serivce_name`             | ECS service name                                                                            |
-| `task_iam_role_name`           | Name of the ECS Task IAM role                                                               |
-| `task_execution_iam_role_name` | Name of the ECS Task Execution IAM role                                                     |
+| Name                           | Description                                  |
+| ------------------------------ | -------------------------------------------- |
+| `task_definition_arn`          | ECS Task Definition ARN                      |
+| `task_security_group_id`       | ID of security group attached to ECS Service |
+| `ecs_serivce_name`             | ECS service name                             |
+| `task_iam_role_name`           | Name of the ECS Task IAM role                |
+| `task_execution_iam_role_name` | Name of the ECS Task Execution IAM role      |

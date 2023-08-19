@@ -1,4 +1,4 @@
-resource "aws_ecs_task_definition" "td" {
+resource "aws_ecs_task_definition" "default" {
   family                   = module.this.id
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
