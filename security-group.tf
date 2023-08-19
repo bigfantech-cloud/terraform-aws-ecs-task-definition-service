@@ -1,12 +1,12 @@
-resource "aws_security_group" "task_sg" {
-  name        = "${module.this.id}-ecs-task"
+resource "aws_security_group" "default" {
+  name        = "${module.this.id}-ecs-service"
   description = "Allow inbound access only from the LB"
   vpc_id      = var.vpc_id
 
   tags = merge(
     module.this.tags,
     {
-      Name = "${module.this.id}-ecs-task"
+      Name = "${module.this.id}-ecs-service"
     },
   )
 }
@@ -28,6 +28,6 @@ resource "aws_security_group_rule" "ingress" {
   from_port                = 0
   to_port                  = 0
   protocol                 = "-1"
-  source_security_group_id = var.ecs_lb_security_group_id
+  source_security_group_id = var.lb_security_group_id
 }
 

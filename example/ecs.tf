@@ -6,7 +6,7 @@ module "network" {
 }
 
 module "ecs_alb" {
-  source = "bigfantech-cloud/alb-ecs/aws"
+  source = "bigfantech-cloud/alb/aws"
 
   #...
   #...... module attributes
@@ -15,6 +15,11 @@ module "ecs_alb" {
 
 resource "aws_ecs_cluster" "default" {
   name = "thecluster"
+}
+
+resource "aws_service_discovery_http_namespace" "default" {
+  name        = "default"
+  description = "default"
 }
 
 resource "aws_ecs_cluster_capacity_providers" "custom" {
@@ -66,4 +71,16 @@ module "ecs_td_service" {
       base              = 0
     }
   ]
+  service_connect_configuration = {
+    enabled   = true
+    namespace = aws_service_discovery_http_namespace.default.name
+    services = [
+      {
+        port_name             = module.ecs_container_definition.port_mappings[0].name
+        discovery_name        = "server"
+        client_alias_dns_name = "server"
+        client_alias_port     = "1024"
+      }
+    ]
+  }
 }

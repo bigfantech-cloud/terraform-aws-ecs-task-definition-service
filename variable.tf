@@ -3,25 +3,19 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "ecs_lb_security_group_id" {
-  description = "ECS ALB security group ID to allow inbound access from the LB only to Task"
+variable "lb_security_group_id" {
+  description = "LB Security group ID to whitelist for inbound access to Service"
   type        = string
 }
 
-variable "custom_task_policy_document" {
-  description = <<-EOT
-    Custom IAM policy document for ECS Task to attach instead of policy document defined in this module
-    Use `aws_iam_policy_document` data block to generate JSON"
-  EOT
+variable "custom_task_iam_policy_document" {
+  description = "Custom IAM policy document for ECS Task to attach instead of policy document defined in this module"
   type        = string
   default     = null
 }
 
-variable "custom_task_execution_policy_document" {
-  description = <<-EOT
-    Custom IAM policy document for ECS Task Execution to attach instead of policy document defined in this module
-    Use `aws_iam_policy_document` data block to generate JSON"
-  EOT
+variable "custom_task_iam_execution_policy_document" {
+  description = "Custom IAM policy document for ECS Task Execution to attach instead of policy document defined in this module"
   type        = string
   default     = null
 }
@@ -76,7 +70,7 @@ variable "ecs_task_desired_count" {
 }
 
 variable "ignore_task_definition_change" {
-  description = "Whether to ignore updating ECS Service when new Task Definition is created through Terraform"
+  description = "Whether to ignore updating ECS Service when new Task Definition is created through Terraform. If not ignored, always the later version of TD is used. Default = false"
   type        = bool
   default     = false
 }
@@ -92,10 +86,7 @@ variable "subnets" {
 }
 
 variable "container_port" {
-  description = <<-EOF
-  "Container Port to associate with LB, and port mapping in Container Definition.
-  Port mappings allow containers to access ports on the host container instance to send or receive traffic."
-  EOF
+  description = "Container Port to associate with LB"
   type        = number
 }
 
@@ -105,20 +96,12 @@ variable "container_name" {
 }
 
 variable "capacity_provider_strategies" {
+  description = "List of ECS Service Capacity Provider Strategies"
   type = list(object({
     capacity_provider = string
     weight            = number
     base              = number
   }))
-
-  description = <<EOF
-  "List of ECS Service Capacity Provider Strategies.
-    example: [{
-        capacity_provider = "FARGATE_SPOT"
-        weight            = 100
-        base              = 1
-        },]"
-    EOF
 
   default = [{
     capacity_provider = "FARGATE_SPOT"
@@ -134,4 +117,20 @@ variable "ecs_exec_enabled" {
    EOF
   type        = bool
   default     = true
+}
+
+variable "service_connect_configuration" {
+  description = "ECS Service Connect configuration"
+  type = object({
+    enabled   = optional(bool)
+    namespace = optional(string)
+    services = optional(list(object({
+      port_name             = string
+      discovery_name        = optional(string)
+      ingress_port_override = optional(number)
+      client_alias_dns_name = optional(string)
+      client_alias_port     = number
+    })))
+  })
+  default = {}
 }
